@@ -10,5 +10,4 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/',route1);
 
 app.listen(process.env.PORT, () => {
-    console.log(`Your server is running at ${process.env.PORT}`);
-})
+    console.log(`Your serve
