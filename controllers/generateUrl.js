@@ -15,9 +15,7 @@ async function generateUrl(req, res) {
         createdBy: req.user._id,
     });
 
-    return res.render('home',{
-        id: shortID,
-    });
+    return res.redirect('/');
 }
 
 async function getAnalytics(req, res) {

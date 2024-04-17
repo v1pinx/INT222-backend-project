@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home Page</title>
+    <style>
+        *{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+</head>
+<body>
+    <h1>URL Shrinker</h1>
+    <div>
+        <form action="/url" method="post">
+            <input type="text" placeholder="https://example.com" name="redirectUrl">
+            <button type="submit">Generate</button>
+        </form>
+
+        <% if (locals.id) { %>
+         <p>URL Generated : http://localhost:8001/<%= id %> </p>
+        <% } %>
+
+        <% if (locals.urls) { %>
+            <table>
+                <thead>
+                    <th>S. No.</th>
+                    <th>ShortID</th>
+                    <th>Redirect</th>
+                    <th>Click</th>
+                </thead>
+                <tbody>
+                    <% for (let i = urls.length - 1; i >= 0; i--) { %>
+                        <tr>
+                            <td><%= urls.length - i %></td>
+                            <td><%= urls[i].shortId %></td>
+                            <td><%= urls[i].redirectUrl %></td>
+                            <td><%= urls[i].visitHistory.length %></td>
+                        </tr>
+                    <% } %>
+                    
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+</body>
+</html>

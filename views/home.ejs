@@ -3,46 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home Page</title>
+    <title>URL Shrinker</title>
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
     <style>
-        *{
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
     </style>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
-<body>
-    <h1>URL Shrinker</h1>
-    <div>
-        <form action="/url" method="post">
-            <input type="text" placeholder="https://example.com" name="redirectUrl">
-            <button type="submit">Generate</button>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-4">URL Shrinker</h1>
+        <!-- Logout button and username display -->
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <% if (locals.username) { %>
+                    <span class="text-gray-600">Logged in as: <%= locals.username %></span>
+                <% } %>
+            </div>
+            <div>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-red-700">Logout</button>
+            </div>
+        </div>
+
+        <form action="/url" method="post" class="flex items-center justify-center">
+            <input type="text" placeholder="https://example.com" name="redirectUrl" class="rounded-md border border-gray-300 px-4 py-2 w-full mr-2 focus:outline-none focus:ring focus:ring-blue-500">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-700">Generate</button>
         </form>
 
         <% if (locals.id) { %>
-         <p>URL Generated : http://localhost:8001/<%= id %> </p>
+        <p class="text-green-500 text-center mt-4">URL Generated: <a href="http://localhost:8001/<%= id %>" class="text-blue-500 underline">http://localhost:8001/<%= id %></a></p>
         <% } %>
 
         <% if (locals.urls) { %>
-            <table>
-                <thead>
-                    <th>S. No.</th>
-                    <th>ShortID</th>
-                    <th>Redirect</th>
-                    <th>Click</th>
-                </thead>
-                <tbody>
-                    <% urls.forEach((url, index) => { %>
-                    <tr>
-                        <td><%= index + 1 %></td>
-                        <td><%= url.shortId %></td>
-                        <td><%= url.redirectUrl %></td>
-                        <td><%= url.visitHistory.length %></td>
+        <table class="w-full mt-8 rounded-md border border-gray-300 shadow-md">
+            <thead>
+                <tr class="bg-gray-200 text-left text-sm font-medium">
+                    <th class="px-4 py-2">S. No.</th>
+                    <th class="px-4 py-2">Redirect</th>
+                    <th class="px-4 py-2">Click Count</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = urls.length - 1; i >= 0; i--) { %>
+                    <tr class="border-b border-gray-300 hover:bg-gray-200">
+                        <td class="px-4 py-2"><%= urls.length - i %></td>
+                        <td class="px-4 py-2"><%= urls[i].redirectUrl %></td>
+                        <td class="px-4 py-2"><%= urls[i].visitHistory.length %></td>
+                        <td class="px-4 py-2">
+                            <button onclick="copyToClipboard('<%= urls[i].shortId %>')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:ring focus:ring-green-700">Copy</button>
+                            <form action="/delete" method="post">
+                                <input type="hidden" name="shortId" value="<%= urls[i].shortId %>">
+                                <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:ring focus:ring-red-700">Delete</button>
+                            </form>
+                        </td>
                     </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+                <% } %>
+            </tbody>
+        </table>
         <% } %>
     </div>
+
+    <script>
+        function logout() {
+            // Clear the cookie by setting an empty value and an expiry date in the past
+            console.log('Resetting username cookie');
+document.cookie = 'uid=; username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+
+            // Redirect to the logout page or any other desired action
+            window.location.href = '/'; // Replace '/logout' with your actual logout endpoint or page
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied to clipboard!');
+            }, function(err) {
+                console.error('Unable to copy to clipboard: ', err);
+            });
+        }
+    </script>
 </body>
 </html>
