@@ -4,20 +4,29 @@ const { setUser, getUser } = require('../service/auth');
 
 async function userSignup(req, res) {
     const { username, password } = req.body;
-    const x = await User.create({
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        
+        return res.render('signup', {
+            msg: "User already exists",
+        }); 
+    }
+
+    const newUser = await User.create({
         username: username,
-        password: password, 
+        password: password,
     });
-    console.log(x);
     return res.redirect('/');
 }
+
 
 async function userLogin(req, res) {
     const { username, password } = req.body;
     const user = await User.findOne({username, password});
     if(!user){
         return res.render('login', {
-            error: "Invalid username or password",
+            msg: "Invalid username or password",
         });
     }
 

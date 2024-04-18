@@ -1,3 +1,4 @@
 ip address track
 qr code generator
 copy button css
+error handling for existing user

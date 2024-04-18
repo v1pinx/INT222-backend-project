@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    min-height: 80vh;
+    background: url(bg-img.webp);
+    text-align: center;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+}
+
+.wrapper h1{
+    text-align: center;
+    font-size: 70px;
+    font-weight: 900;
+    margin-top: 20vh;
+    color: white;
+}
+
+.logout-btn{
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 90px;
+    height: 44px;
+    background-color: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: black;
+    font-weight: 600;
+}
+
+.profile-name{
+    position: absolute;
+    top: 54px;
+    right:115px;
+    width: 90px;
+    height: 44px;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+}
+
+
+.input-box input{
+    width: 70%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.89);
+    border: 1px solid white;
+    font-size: 16px;
+    color: black;
+    padding: 20px 45px 20px 20px;
+}
+
+.gen-btn {
+    height: 44px;
+    background-color: rgb(0, 0, 0);
+    outline: none;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+    height: 62px;
+    transition: 0.3s ease-in-out;
+}
+
+.gen-btn:hover{
+    background-color: white;
+    color: black;
+}
+
+.btn-c, .btn-d{
+    border-radius: 15px;
+}
+
+.btn-c{
+    background-color: white;
+    font-weight: 600;
+
+}
+.btn-d{
+    background-color: #ff0000;
+    font-weight: 600;
+    color: white;
+
+}
+
+/* CSS for the table */
+
+.table{
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+
+}
+table {
+    width: 75%;
+    border-collapse: collapse;
+
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+    height: 60px;
+  }
+  
+  th {
+    background-color: #f2f2f2b6;
+    font-weight: bold;
+  }
+  td{
+    color: white;
+    backdrop-filter: blur(20px);
+  }
+  
+  button {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    color: black;
+  }
+
+  .th-1{
+    border-radius: 15px 0% 0% 0%;
+  }
+  .th-4{
+    border-radius: 0% 15px 0% 0%;
+  }
+
+  .last-1{
+    border-radius: 0% 0% 0% 15px;
+  }
+
+  .last-4{
+    border-radius: 0% 0% 15px 0%;
+  }
+  

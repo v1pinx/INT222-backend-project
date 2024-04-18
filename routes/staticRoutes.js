@@ -9,7 +9,6 @@ router.get('/', async (req, res) => {
     }
     const username = req.cookies.username;
     const allUrls = await URL.find({ createdBy: req.user._id })
-    console.log(allUrls)
     return res.render('home', {
         urls: allUrls,
         username: username,

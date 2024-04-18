@@ -4,7 +4,7 @@ const URL = require('../models/urlModel');
 async function generateUrl(req, res) {
     const body = req.body;
     if(!body.redirectUrl){
-        return res.status(400).json({error: 'URLL is required'});
+        return res.status(400).json({error: 'URL is required'});
     }
 
     const shortID = shortid();

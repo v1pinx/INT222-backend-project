@@ -1,21 +1,25 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const path = require('path');
+require('dotenv').config();
 const { connectDB } = require('./db');
 const { loggedInUserOnly , checkAuth } = require('./middlewares/auth');
+const PORT = process.env.PORT;
 
 const URL = require('./models/urlModel');
 const app = express(); 
-const PORT = 8001;
 
 const urlRoute = require('./routes/urlRoute');
 const staticRoute = require('./routes/staticRoutes');
 const userRoute = require('./routes/user');
 
-connectDB("mongodb://localhost:27017/shrinker2")
+
+connectDB(process.env.MONGODB_URI)
 .then(() => {console.log("DB connected");})
 .catch((err) => {console.log(err);})
 
 app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
