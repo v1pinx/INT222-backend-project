@@ -38,7 +38,7 @@
             <thead>
                 <tr>
                     <th class="th-1">S. No.</th>
-                    <th >Original URL</th>
+                    <th style="max-width: 400px; overflow: hidden; text-overflow: ellipsis;">Original URL</th>
                     <th>Click Count</th>
                     <th class="th-4">Actions</th>
                 </tr>
@@ -47,7 +47,7 @@
                 <% for (let i = urls.length - 1; i >= 0; i--) { %>
                     <tr >
                         <td ><%= urls.length - i %></td>
-                        <td ><%= urls[i].redirectUrl %></td>
+                        <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis;"><%= urls[i].redirectUrl %></td>
                         <td ><%= urls[i].visitHistory.length %></td>
                         <td >
                             <button onclick="copyToClipboard('<%= urls[i].shortId %>')" class="btn-c">Copy</button>

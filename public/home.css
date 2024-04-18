@@ -149,6 +149,7 @@ table {
 
   .th-1{
     border-radius: 15px 0% 0% 0%;
+    max-width: 10px;
   }
   .th-4{
     border-radius: 0% 15px 0% 0%;
