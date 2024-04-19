@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const User = require('../models/user');
-const { setUser, getUser } = require('../service/auth');
+const { setUser } = require('../service/auth');
 
 async function userSignup(req, res) {
     const { username, password } = req.body;
@@ -25,9 +25,7 @@ async function userLogin(req, res) {
     const { username, password } = req.body;
     const user = await User.findOne({username, password});
     if(!user){
-        return res.render('login', {
-            msg: "Invalid username or password",
-        });
+        return res.redirect('/login?error=404');
     }
 
     const sessionId = uuidv4();

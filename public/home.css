@@ -12,7 +12,7 @@ body{
     justify-content: center;
     align-items: center; */
     min-height: 80vh;
-    background: url(bg-img.webp);
+    background: url(bg2.webp);
     text-align: center;
     background-color: transparent;
     background-repeat: no-repeat;
@@ -54,8 +54,6 @@ body{
     height: 44px;
     border: none;
     outline: none;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-size: 16px;
     color: white;
     font-weight: 600;
