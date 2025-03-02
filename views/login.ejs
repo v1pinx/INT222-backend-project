@@ -6,42 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./login.css" />
-    <title>Login</title>
+    <title>URL Shrinker - Login</title>
 </head>
 
-<body>
+<body class="bg-with-image">
     <div class="wrapper">
-        
         <form action="/user/login" method="post">
-            <h1>Sign in your account</h1>
+            <h1>Sign in to Shrinky</h1>
             
-            <div style="text-align: center; position: relative; top: 10px;" class="err"></div>
+            <div class="err" id="error-message"></div>
             
             <div class="input-box">
                 <input type="text" placeholder="Username" name="username" required />
                 <i class="bx bxs-user"></i>
             </div>
+            
             <div class="input-box">
                 <input type="password" name="password" placeholder="Password" required />
                 <i class="bx bxs-lock-alt"></i>
             </div>
 
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn">Sign In</button>
 
             <div class="register-link">
-                <p>Don't have account? <a href="/signup">Signup</a></p>
+                <p>Don't have an account? <a href="/signup">Sign Up</a></p>
             </div>
         </form>
     </div>
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const error = params.get('error');
 
-        
-        if (error === '404') {
-            const err = document.querySelector('.err');
-            err.innerText = "Invalid Credentials";
-        }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const error = params.get('error');
+            const errorElement = document.getElementById('error-message');
+            
+            if (error === '404') {
+                errorElement.innerText = "Invalid username or password";
+                errorElement.style.display = 'block';
+            }
+        });
     </script>
 </body>
 

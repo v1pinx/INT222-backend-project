@@ -4,92 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./home.css">
-    <title>URL Shrinker</title>
+    <title>Shrinky</title>
 </head>
-<body >
+<body class="bg-with-image">
     <div class="wrapper">
-        <h1>URL Shrinker</h1>
-        <!-- Logout button and username display -->
-        <div>
-            <div>
-                <% if (locals.username) { %>
-                    <span class="profile-name"><%= locals.username %></span>
-                <% } %>
-            </div>
-                <button onclick="logout()"  class="logout-btn">Logout</button>
-  
+        <h1>Shrinky</h1>
+        
+        <!-- User controls: Logout button and username display -->
+        <div class="user-controls">
+            <% if (locals.username) { %>
+                <span class="profile-name"><%= locals.username %></span>
+            <% } %>
+            <button onclick="logout()" class="logout-btn">Logout</button>
         </div>
-        <br><br>
 
+        <!-- URL input form -->
         <form action="/url" method="post">
-            <span class="input-box">
+            <div class="input-box">
                 <input type="text" placeholder="https://example.com" name="redirectUrl" required>
-            </span>
-            <button type="submit" class="gen-btn">Generate </button>
+            </div>
+            <button type="submit" class="gen-btn">Generate</button>
         </form>
 
-
-
-
-        <% if (locals.urls) { %>
-        <div class="table">
-
-        <table>
-            <thead>
-                <tr>
-                    <th class="th-1">S. No.</th>
-                    <th style="max-width: 400px; overflow: hidden; text-overflow: ellipsis;">Original URL</th>
-                    <th>Click Count</th>
-                    <th class="th-4">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (let i = urls.length - 1; i >= 0; i--) { %>
-                    <tr >
-                        <td ><%= urls.length - i %></td>
-                        <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis;"><%= urls[i].redirectUrl %></td>
-                        <td ><%= urls[i].visitHistory.length %></td>
-                        <td >
-                            <button onclick="copyToClipboard('<%= urls[i].shortId %>')" class="btn-c">Copy</button>
-                            <form action="/delete" method="post" style="display: inline;">
-                                <input type="hidden" name="shortId" value="<%= urls[i].shortId %>">
-                                <button class="btn-d">Delete</button>
-                            </form>
-                        </td>
+        <!-- URLs table -->
+        <% if (locals.urls && urls.length > 0) { %>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">S. No.</th>
+                        <th>Original URL</th>
+                        <th style="width: 120px;">Clicks</th>
+                        <th style="width: 180px;">Actions</th>
                     </tr>
-        
-                <% } %>
-                <tr>
-                    <td class="last-1"></td>
-                    <td></td>
-                    <td></td>
-                    <td class="last-4"></td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
+                </thead>
+                <tbody>
+                    <% for (let i = urls.length - 1; i >= 0; i--) { %>
+                        <tr>
+                            <td><%= urls.length - i %></td>
+                            <td class="url-cell"><%= urls[i].redirectUrl %></td>
+                            <td><%= urls[i].visitHistory.length %></td>
+                            <td class="action-cell">
+                                <button onclick="copyToClipboard('<%= urls[i].shortId %>')" class="btn-c">Copy</button>
+                                <form action="/delete" method="post" style="display: inline; margin: 0;">
+                                    <input type="hidden" name="shortId" value="<%= urls[i].shortId %>">
+                                    <button class="btn-d">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
         <% } %>
     </div>
 
     <script>
         function logout() {
-            // Clear the cookie by setting an empty value and an expiry date in the past
-            console.log('Resetting username cookie');
-document.cookie = 'uid=; username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-
-
-            // Redirect to the logout page or any other desired action
-            window.location.href = '/'; // Replace '/logout' with your actual logout endpoint or page
+            document.cookie = 'uid=; username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            window.location.href = '/';
         }
 
         function copyToClipboard(text) {
-            const domain = window.location;
-            navigator.clipboard.writeText(domain+text).then(function() {
-                alert('Copied to clipboard!');
+            const domain = window.location.href;
+            // Make sure we get the root domain without any trailing page path
+            const baseUrl = domain.split('/').slice(0, 3).join('/') + '/';
+            navigator.clipboard.writeText(baseUrl + text).then(function() {
+                // Create and show a toast notification instead of an alert
+                showToast('Copied to clipboard!');
             }, function(err) {
                 console.error('Unable to copy to clipboard: ', err);
+                showToast('Failed to copy', true);
             });
+        }
+        
+        function showToast(message, isError = false) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.padding = '12px 24px';
+            toast.style.borderRadius = '4px';
+            toast.style.backgroundColor = isError ? '#ef4444' : '#10b981';
+            toast.style.color = 'white';
+            toast.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            toast.style.zIndex = '1000';
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+            
+            // Add to document
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.style.opacity = '1';
+            }, 10);
+            
+            // Hide and remove after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
         }
     </script>
 </body>
